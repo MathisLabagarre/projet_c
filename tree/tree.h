@@ -21,7 +21,7 @@ void addToTheTree(treeNode *root, treeNode *node);
 
 bool findInTree(treeNode *root, char *toFind);
 
-void balanceTree(treeNode *root);
+treeNode *balanceTree(treeNode *root);
 
 void printTree(treeNode *root, int gap);
 
