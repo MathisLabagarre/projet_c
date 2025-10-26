@@ -175,6 +175,7 @@ int main(int argc, char* argv[]){
             }
             free(request);
             free(hash);
+            free(monHash);
             deleteTree(root);
         }
 
