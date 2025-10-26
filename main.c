@@ -92,7 +92,9 @@ int main(int argc, char* argv[]){
             
             char *word;
             while((word = readNextLine(fichier)) != NULL){
-                fprintf(fichierSortie, "%s\n", hashString(word, hashType));
+                char * ouioui = hashString(word, hashType);
+                fprintf(fichierSortie, "%s\n", ouioui);
+                free(ouioui);
             }
             fclose(fichierSortie);
         }
