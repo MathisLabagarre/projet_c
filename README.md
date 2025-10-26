@@ -21,3 +21,15 @@ Allant avec -G :
 
 Allant avec -L:
 -s pour chercher un condensat une fois chargé (ne redonne pas la main)
+SOIT
+-S pour hasher un mot et le chercher
+(si les deux sont en paramètres, -S prévaudra)
+
+-H pour l'algo
+
+
+
+à faire dans le train :
+dockerfile + makefile
+-GL
+balancetree si possible
