@@ -8,7 +8,10 @@
             "args": [
                 "main.c",
                 "tree/*.c",
+                "file/*.c",
+                "hash/*.c",
                 "-Wall",
+                "-lcrypto",
                 "-g",
                 "-o",
                 "main"

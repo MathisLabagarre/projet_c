@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./tree/tree.h"
+#include "./file/file.h"
+#include "./hash/hash.h"
 
 void test(){
     treeNode * node = createNode("premiertest");
@@ -34,7 +36,73 @@ void test(){
 }
 
 int main(int argc, char* argv[]){
+    //test();
+    const char *hachage[] = {"sha256", "sha512", "md5", "sha1"};
 
-    test();
+    if(argc <= 1){
+        printf("Veuillez ajouter -G ou -L au lancement pour générer ou comparer des hashs.\n");
+        return 0;
+    }
+    else if ((argc - 1) % 2 != 0){
+        printf("Chaque mode requiert un paramètre, veuillez compléter votre requête.\n");
+        return 0;
+    }
+    else{
+        FILE * fichier = NULL;
+        if((fichier = fopen(argv[2], "r")) != NULL){
+            printf("Début de la lecture ...\n");
+        }
+        else{
+            printf("Le fichier %s n'existe pas. Veuillez vérifier l'emplacement du fichier.\n", argv[2]);
+            return 0;
+        }
+        if(strcmp(argv[1], "-G") == 0){
+            char * outputFile = malloc(1000 * sizeof(char));
+            int hashType = 0;
+            outputFile = "./storage/hash.txt"; //sortie par défaut
 
+            for(int i = 3; i < argc; i++){
+                if(strcmp(argv[i], "-H") == 0){
+                    if(strlen(argv[i + 1]) > 6){
+                        printf("Choisissez un alogrithme de hachage valide SVP : sha1, sha256, sha512, md5\n");
+                        return 0;
+                    }
+                    for(int j = 0; j < 4; j++){
+                        if(strcmp(hachage[j], argv[i + 1]) == 0){
+                            hashType = j;
+                            break;
+                        }
+                    }
+                }
+
+                if(strcmp(argv[i], "-o") == 0){
+                    if(strlen(argv[i + 1]) > 1000){
+                        printf("Privilégiez un chemin relatif à un chemin absolu. Si ça ne suffit pas, songez à choisir un dossier de sortie plus proche de celui-ci.\n");
+                        return 0;
+                    }
+                    strcpy(outputFile, argv[i + 1]);
+                }
+            }
+            FILE * fichierSortie = fopen(outputFile, "w");
+            
+            char *word;
+            while((word = readNextLine(fichier)) != NULL){
+                fprintf(fichierSortie, "%s\n", hashString(word, hashType));
+            }
+            fclose(fichierSortie);
+        }
+        else if(strcmp(argv[1], "-L") == 0){
+
+        }
+        else if(strcmp(argv[1], "-GL") == 0){
+
+        }
+        else{
+            printf("Argument non reconnu.\n");
+            return 0;
+        }
+        fclose(fichier);
+    }
+    printf("Fin du programme.\n");
+    return 0;
 }

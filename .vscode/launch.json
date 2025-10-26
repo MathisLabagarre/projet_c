@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main.exe",
-            "args": [],
+            "args": ["-G", "./storage/file.txt", "-H", "md5"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
