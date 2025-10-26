@@ -7,13 +7,13 @@ OBJECTS = $(SOURCES:.c=.o)
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS)
-<TAB>$(CC) -o $(EXEC) $(OBJECTS) $(CFLAGS)
+	$(CC) -o $(EXEC) $(OBJECTS) $(CFLAGS)
 
 %.o: %.c
-        $(CC) -c $< -o $@ $(CFLAGS)
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
-        rm -f $(OBJECTS) $(EXEC)
+	rm -f $(OBJECTS) $(EXEC)
 
 fclean: clean
 
