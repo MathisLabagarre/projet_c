@@ -30,7 +30,7 @@ void test(){
     newtree = balanceTree(newtree);
     printTree(newtree, 0);
     
-    deleteTree(node0);
+    deleteTree(newtree);
 }
 
 int main(int argc, char* argv[]){

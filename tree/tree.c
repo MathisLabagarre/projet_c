@@ -72,6 +72,8 @@ bool findInTree(treeNode *root, char *toFind){
     return false;
 }
 
+
+
 //plus lourd à gauche
 treeNode *balanceLeft(treeNode *root){
     treeNode *temp = root->left;
@@ -91,9 +93,8 @@ treeNode *balanceRight(treeNode *root){
 }
 
 
-
+// à utiliser au minimum tous les 2 ajouts d'un noeud à l'arbre
 treeNode *balanceTree(treeNode *root){
-    printTree(root, 0);
     if(isLeaf(root)){
         return root;
     }
