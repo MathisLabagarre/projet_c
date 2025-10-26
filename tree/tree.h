@@ -17,6 +17,8 @@ typedef struct treeNode_t{
 
 treeNode * createNode(char *value);
 
+int greaterDepth(treeNode *node);
+
 void addToTheTree(treeNode *root, treeNode *node);
 
 bool findInTree(treeNode *root, char *toFind);
@@ -24,6 +26,8 @@ bool findInTree(treeNode *root, char *toFind);
 treeNode *balanceTree(treeNode *root);
 
 void printTree(treeNode *root, int gap);
+
+bool isLeaf(treeNode *node);
 
 void deleteNode(treeNode *node);
 

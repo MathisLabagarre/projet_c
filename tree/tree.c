@@ -8,6 +8,25 @@ treeNode * createNode(char *value){
 }
 
 
+int greaterDepth(treeNode *node){
+    if(isLeaf(node)){
+        return 0;
+    }
+    else if(node->left != NULL && node->right != NULL){
+        if(node->left->maxDepthBelow - node->right->maxDepthBelow < 0){
+            return node->right->maxDepthBelow + 1;
+        }
+        return node->left->maxDepthBelow + 1;               //même si ils sont = on va renvoyer l'un des deux donc autant que ce soit le gauche ¯\_(ツ)_/¯
+    }
+    else if(node->left != NULL){
+        return node->left->maxDepthBelow + 1;
+    }
+    else if(node->right != NULL){
+        return node->right->maxDepthBelow + 1;
+    }
+    return -1;
+}
+
 
 void addToTheTree(treeNode *root, treeNode *node){
     if(root == NULL || node == NULL){
@@ -31,6 +50,7 @@ void addToTheTree(treeNode *root, treeNode *node){
             }
         }
     }
+    root->maxDepthBelow = greaterDepth(root);
 }
 
 
@@ -52,33 +72,54 @@ bool findInTree(treeNode *root, char *toFind){
     return false;
 }
 
+//plus lourd à gauche
+treeNode *balanceLeft(treeNode *root){
+    treeNode *temp = root->left;
+    root->left = temp->right;
+    temp->right = root;
+    root->maxDepthBelow = greaterDepth(root);
+    return temp;
+}
 
-
-treeNode *balance(treeNode *root){
-
+//plus lourd à droite
+treeNode *balanceRight(treeNode *root){
+    treeNode *temp = root->right;
+    root->right = temp->left;
+    temp->left = root;
+    root->maxDepthBelow = greaterDepth(root);
+    return temp;
 }
 
 
 
 treeNode *balanceTree(treeNode *root){
-    if(root->right != NULL && root->left != NULL)
-    {
-        treeNode * temp = root;
-        if((root->right->value - root->left->value) > 2){
-            
+    printTree(root, 0);
+    if(isLeaf(root)){
+        return root;
+    }
+    else if((root->right == NULL && root->maxDepthBelow >= 2)){
+        root = balanceLeft(root);
+    }
+    else if((root->left == NULL && root->maxDepthBelow >= 2)){ 
+        root = balanceRight(root);
+    }
+    else if(root->left != NULL && root->right != NULL){
+        if(root->left->maxDepthBelow - root->right->maxDepthBelow >= 2){
+            root = balanceLeft(root);
         }
-        else if((root->left->value - root->right->value) > 2){
-
+        if((root->right->maxDepthBelow - root->left->maxDepthBelow >= 2)){
+            root = balanceRight(root);
         }
     }
-    else if(root->right != NULL && root->left == NULL){
-
+    if(root->right != NULL){
+        root->right = balanceTree(root->right);
     }
-    else if(root->right == NULL && root->left != NULL){
-
+    if(root->left != NULL){
+        root->left = balanceTree(root->left);
     }
+    root->maxDepthBelow = greaterDepth(root);
+    return root;
 }
-
 
 
 void printTree(treeNode * root, int gap){
@@ -88,7 +129,7 @@ void printTree(treeNode * root, int gap){
     for(int i = 0; i < gap; i++){
         printf("    ");
     }
-    printf("%s\n", root->value);
+    printf("%s, %d\n", root->value, root->maxDepthBelow);
     if(root->left != NULL){
         printTree(root->left, gap + 1);
     }
