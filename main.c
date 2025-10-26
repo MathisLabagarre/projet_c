@@ -183,7 +183,38 @@ int main(int argc, char* argv[]){
 
 
         else if(strcmp(argv[1], "-GL") == 0){
+            int hashType = 0;
+            if(strcmp(argv[3], "-H") == 0){
+                if(argv[4] != NULL){
+                    for(int i = 0; i < 4; i++){
+                        if(strcmp(argv[4], hachage[i]) == 0){
+                            hashType = i;
+                            break;
+                        }
+                    }
+                }
+            }         
+            char *word;
+            if((word = readNextLine(fichier)) == NULL){
+                printf("Veuillez fournir un fichier non vide.\n");
+                return 0;
+            }
+            treeNode *root = createNode(hashString(word, hashType));
+            while((word = readNextLine(fichier)) != NULL){
+                addToTheTree(root, createNode(hashString(word, hashType)));
+            }
 
+            char *request = malloc(100 * sizeof(char));
+            while((scanf("%s", request) == 1) && (strcmp(request, "exit") != 0)){
+                if(findInTree(root, hashString(request, hashType))){
+                    printf("Trouvé !\n");
+                }
+                else{
+                    printf("Aucun hash ne correspond à votre mot dans le dictionnaire.\n");
+                }
+            }
+            
+            deleteTree(root);
         }
         else{
             printf("Argument non reconnu.\n");
