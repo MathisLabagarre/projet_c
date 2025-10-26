@@ -184,16 +184,18 @@ int main(int argc, char* argv[]){
 
         else if(strcmp(argv[1], "-GL") == 0){
             int hashType = 0;
-            if(strcmp(argv[3], "-H") == 0){
-                if(argv[4] != NULL){
-                    for(int i = 0; i < 4; i++){
-                        if(strcmp(argv[4], hachage[i]) == 0){
-                            hashType = i;
-                            break;
+            for(int i = 3; i < argc; i++){
+                if(strcmp(argv[i], "-H") == 0){
+                    if(argv[i + 1] != NULL){
+                        for(int j = 0; j < 4; j++){
+                            if(strcmp(argv[i + 1], hachage[j]) == 0){
+                                hashType = i;
+                                break;
+                            }
                         }
                     }
-                }
-            }         
+                }   
+            }      
             char *word;
             if((word = readNextLine(fichier)) == NULL){
                 printf("Veuillez fournir un fichier non vide.\n");
