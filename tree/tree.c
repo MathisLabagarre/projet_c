@@ -149,6 +149,7 @@ bool isLeaf(treeNode *node){
 
 
 void deleteNode(treeNode *node){
+    free(node->value);
     free(node);
 }
 

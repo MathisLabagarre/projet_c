@@ -170,7 +170,8 @@ int main(int argc, char* argv[]){
                     printf("Aucun hash ne correspond à votre mot dans le dictionnaire.\n");
                 }
             }
-            
+            free(request);
+            free(hash);
             deleteTree(root);
         }
 
@@ -210,14 +211,16 @@ int main(int argc, char* argv[]){
             char *request = malloc(100 * sizeof(char));
             printf("Entrez le mot à hasher : ");
             while((scanf("%s", request) == 1) && (strcmp(request, "exit") != 0)){
-                if(findInTree(root, hashString(request, hashType))){
+                char * hashATrouver = hashString(request, hashType);
+                if(findInTree(root, hashATrouver)){
                     printf("Trouvé !\n");
                 }
                 else{
                     printf("Aucun hash ne correspond à votre mot dans le dictionnaire.\n");
                 }
+                free(hashATrouver);
             }
-            
+            printTree(root, 0);
             deleteTree(root);
         }
         else{

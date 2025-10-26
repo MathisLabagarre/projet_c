@@ -33,6 +33,7 @@ char *hashString(char *string, int algo){
     for(int i = 0; i < md_len; i++){
         sprintf(toReturn + i*2, "%02x", md_value[i]);
     }
-    toReturn[md_len * 2] = '\0';     
+    toReturn[md_len * 2] = '\0';
+    EVP_MD_CTX_destroy(mdctx);
     return toReturn;
 }
