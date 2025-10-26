@@ -172,6 +172,7 @@ int main(int argc, char* argv[]){
                 else{
                     printf("Aucun hash ne correspond à votre mot dans le dictionnaire.\n");
                 }
+                free(motHash);
             }
             free(request);
             free(hash);
