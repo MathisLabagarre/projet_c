@@ -1,9 +1,8 @@
 # projet_c
 
-Lancer la compilation avec :
-à rajouter
-
-gcc main.c tree/*.c -Wall -lcrypto
+Lancer la compilation avec depuis le dossier où se situent main.c et le dockerfile:
+docker build -t projet .
+docker run --rm -v ./:/app projet make
 
 Au lancement :
 Arguments obligatoires : 
@@ -27,9 +26,7 @@ SOIT
 
 -H pour l'algo
 
+Allant avec -GL:
+-H 
 
-
-à faire dans le train :
-dockerfile + makefile
--GL
-balancetree si possible
+Sans -H l'algo par défaut est sha256

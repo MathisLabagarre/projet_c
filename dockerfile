@@ -1,6 +1,6 @@
 FROM gcc:latest
 
-RUN sudo apt install libssl-dev
+RUN apt-get update && apt-get install -y libssl-dev && apt-get install -y make
 
 WORKDIR /app
 
@@ -10,5 +10,3 @@ COPY ./hash .
 COPY ./file .
 COPY ./storage .
 COPY makefile .
-
-RUN make

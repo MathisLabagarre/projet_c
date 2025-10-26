@@ -7,7 +7,7 @@ OBJECTS = $(SOURCES:.c=.o)
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS)
-        $(CC) -o $(EXEC) $(OBJECTS) $(CFLAGS)
+<TAB>$(CC) -o $(EXEC) $(OBJECTS) $(CFLAGS)
 
 %.o: %.c
         $(CC) -c $< -o $@ $(CFLAGS)
