@@ -163,7 +163,8 @@ int main(int argc, char* argv[]){
             char *request = malloc(100 * sizeof(char));
             printf("Entrez le mot à hasher : ");
             while((scanf("%s", request) == 1) && (strcmp(request, "exit") != 0)){
-                if(findInTree(root, hashString(request, hashType))){
+                char * motHash = hashString(request, hashType);
+                if(findInTree(root, motHash)){
                     printf("Trouvé !\n");
                 }
                 else{
