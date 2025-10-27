@@ -1,9 +1,10 @@
 #include "tree.h"
 
 
-treeNode * createNode(char *value){
+treeNode * createNode(char *value, char *clair){
     treeNode * node = calloc(1, sizeof(treeNode));
     node->value = value;
+    node->clair = clair;
     return node;
 }
 
@@ -149,6 +150,7 @@ bool isLeaf(treeNode *node){
 
 
 void deleteNode(treeNode *node){
+    free(node->clair);
     free(node->value);
     free(node);
 }

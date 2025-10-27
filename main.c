@@ -5,39 +5,119 @@
 #include "./hash/hash.h"
 
 void test(){
-    treeNode * node = createNode("premiertest");
-    printf("%s\n\n", node->value);
-    deleteNode(node);
+    // treeNode * node = createNode("premiertest");
+    // printf("%s\n\n", node->value);
+    // deleteNode(node);
 
-    treeNode * node0 = createNode("1");
-    treeNode * node1 = createNode("2");
-    treeNode * node2 = createNode("3");
-    treeNode * node3 = createNode("4");
-    treeNode * node4 = createNode("5");
-    treeNode * node5 = createNode("6");
-    treeNode * node6 = createNode("7");
-    treeNode * node7 = createNode("8");
+    // treeNode * node0 = createNode("1");
+    // treeNode * node1 = createNode("2");
+    // treeNode * node2 = createNode("3");
+    // treeNode * node3 = createNode("4");
+    // treeNode * node4 = createNode("5");
+    // treeNode * node5 = createNode("6");
+    // treeNode * node6 = createNode("7");
+    // treeNode * node7 = createNode("8");
 
-    addToTheTree(node0, node1);
-    addToTheTree(node0, node2);
-    addToTheTree(node0, node3);
-    addToTheTree(node0, node4);
-    addToTheTree(node0, node5);
-    addToTheTree(node0, node6);
-    addToTheTree(node0, node7);
-    printTree(node0, 0);
-    printf("\n\n");
+    // addToTheTree(node0, node1);
+    // addToTheTree(node0, node2);
+    // addToTheTree(node0, node3);
+    // addToTheTree(node0, node4);
+    // addToTheTree(node0, node5);
+    // addToTheTree(node0, node6);
+    // addToTheTree(node0, node7);
+    // printTree(node0, 0);
+    // printf("\n\n");
 
-    treeNode *newtree = balanceTree(node0);
-    newtree = balanceTree(newtree);
-    printTree(newtree, 0);
+    // treeNode *newtree = balanceTree(node0);
+    // newtree = balanceTree(newtree);
+    // printTree(newtree, 0);
     
-    deleteTree(newtree);
+    // deleteTree(newtree);
+
+
+
+    // FILE * rFile = fopen("./storage/file.txt", "r");
+    // FILE * wFile = fopen("./sortie.txt", "w");
+    // if(rFile && wFile){
+    //     char *word;
+    //     while((word = readNextLine(rFile)) != NULL){
+    //         fprintf(wFile, "%s\n", t3cFormat(word, 0));
+    //     }
+    // }
+    // else{
+    //     printf("Problème\n");
+    // }
+    // fclose(rFile);
+    // fclose(wFile);
+
+
+    // //lecture du fichier T3C
+    // FILE * file = fopen("./sortie.txt", "r");
+    // if(file){
+    //     char *clair;
+    //     char *hash;
+    //     while(readT3cLine(file, &clair, &hash)){
+    //         if(clair != NULL && hash != NULL){
+    //             printf("%s et %s\n", clair, hash);
+    //         }
+    //     }
+    // }
+    // else{
+    //     printf("Problème");
+    // }
+}
+
+bool Gparam(int argc, char *argv[], FILE * paramFile){
+    printf("G\n");
+}
+
+bool Lparam(int argc, char *argv[], FILE * paramFile){
+    printf("L\n");
+}
+
+bool GLparam(int argc, char *argv[], FILE * paramFile){
+    printf("GL\n");
 }
 
 int main(int argc, char* argv[]){
-    //test();
+    test();
     const char *hachage[] = {"sha256", "sha512", "md5", "sha1"};
+
+    if(argc <= 1){
+        printf("Veuillez ajouter -G ou -L au lancement pour générer ou comparer des hashs.\n");
+    }
+    else if ((argc - 1) % 2 != 0){
+        printf("Chaque mode requiert un paramètre, veuillez compléter votre requête.\n");
+    }
+    else{
+        FILE * paramFile = fopen(argv[2], "r");
+        if(paramFile == NULL){  
+            printf("Chemin %s non valide.\n", argv[2]);
+        }
+        else{
+            if(strcmp(argv[1], "-G") == 0){
+                if(!Gparam(argc, argv, paramFile)){
+                    return 0;
+                }
+            }
+            else if(strcmp(argv[1], "-L") == 0){
+                if(!Lparam(argc, argv, paramFile)){
+                    return 0;
+                }
+            }
+            else if(strcmp(argv[1], "-GL") == 0){
+                if(!GLparam(argc, argv, paramFile)){
+                    return 0;
+                }
+            }
+            else{
+                printf("Paramètre obligatoire non reconnu.\n");
+            }
+        }
+    }
+    printf("Fin du programme.\n");
+}
+/*    const char *hachage[] = {"sha256", "sha512", "md5", "sha1"};
 
     if(argc <= 1){
         printf("Veuillez ajouter -G ou -L au lancement pour générer ou comparer des hashs.\n");
@@ -237,3 +317,5 @@ int main(int argc, char* argv[]){
     printf("Fin du programme.\n");
     return 0;
 }
+
+*/

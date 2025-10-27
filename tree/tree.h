@@ -11,11 +11,12 @@ typedef struct treeNode_t{
     struct treeNode_t *right;
     struct treeNode_t *left;
     char *value;
+    char *clair;
     int maxDepthBelow;
 } treeNode;
 
 
-treeNode * createNode(char *value);
+treeNode * createNode(char *value, char *clair);
 
 int greaterDepth(treeNode *node);
 
