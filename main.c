@@ -4,6 +4,9 @@
 #include "./file/file.h"
 #include "./hash/hash.h"
 
+//définition des constantes globales
+const char *hachage[] = {"sha256", "sha512", "md5", "sha1"};
+
 void test(){
     // treeNode * node = createNode("premiertest");
     // printf("%s\n\n", node->value);
@@ -68,20 +71,54 @@ void test(){
 }
 
 bool Gparam(int argc, char *argv[], FILE * paramFile){
-    printf("G\n");
+    for(int i = 0; i < argc; i++){
+        printf("%s, %d\n", argv[i], i);
+    }
+    return true;
 }
 
 bool Lparam(int argc, char *argv[], FILE * paramFile){
-    printf("L\n");
+    for(int i = 0; i < argc; i++){
+    
+    }
+    return true;
 }
 
 bool GLparam(int argc, char *argv[], FILE * paramFile){
-    printf("GL\n");
+    int hashType = 0;
+    FILE * outputFile;
+
+    for(int i = 0; i < argc; i++){
+
+        if(strcmp(argv[i], "-H") == 0){
+            for(int j = 0; j < hachage; j++){
+                if(argv[i + 1] != NULL || strcmp(argv[i + 1], "") != 0){
+                    if(strcmp(argv[i + 1], hachage[i])){
+                        hashType = j;
+                        break;
+                    }
+                }
+                
+            }
+        }
+
+        if(strcmp(argv[i], "-o") == 0){
+            if(argv[i + 1] != NULL || strcmp(argv[i + 1], "") != 0){
+                if((outputFile = fopen(argv[i + 1], "w")) == NULL){
+                    printf("Impossible d'ouvrir %s en écriture. Ouverture du fichier par défaut : ./storage/hash.txt.\n");
+                    if((outputFile = fopen("./storage/hash.txt", "w")) == NULL){
+                        printf("Impossible d'ouvrir un fichier en écriture.\n");
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    return true;
 }
 
 int main(int argc, char* argv[]){
     test();
-    const char *hachage[] = {"sha256", "sha512", "md5", "sha1"};
 
     if(argc <= 1){
         printf("Veuillez ajouter -G ou -L au lancement pour générer ou comparer des hashs.\n");
@@ -96,17 +133,17 @@ int main(int argc, char* argv[]){
         }
         else{
             if(strcmp(argv[1], "-G") == 0){
-                if(!Gparam(argc, argv, paramFile)){
+                if(!Gparam(argc - 3, argv + 3, paramFile)){
                     return 0;
                 }
             }
             else if(strcmp(argv[1], "-L") == 0){
-                if(!Lparam(argc, argv, paramFile)){
+                if(!Lparam(argc - 3, argv + 3, paramFile)){
                     return 0;
                 }
             }
             else if(strcmp(argv[1], "-GL") == 0){
-                if(!GLparam(argc, argv, paramFile)){
+                if(!GLparam(argc - 3, argv + 3, paramFile)){
                     return 0;
                 }
             }
