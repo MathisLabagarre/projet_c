@@ -79,7 +79,7 @@ bool Gparam(int argc, char *argv[], FILE * paramFile){
         if(strcmp(argv[i], "-H") == 0){
             for(int j = 0; j < 4; j++){
                 if(argv[i + 1] != NULL || strcmp(argv[i + 1], "") != 0){
-                    if(strcmp(argv[i + 1], hachage[i])){
+                    if(strcmp(argv[i + 1], hachage[j]) == 0){
                         hashType = j;
                         break;
                     }
@@ -143,6 +143,7 @@ bool Lparam(int argc, char *argv[], FILE * paramFile){
         strncpy(hash, value + i + 1, 200 - i);
         addToTheTree(root, createNode(hash, clair));
     }
+    printTree(root, 0);
     char *userinput = malloc(200*sizeof(char));
     while(scanf("%s", userinput) > 0){
         if(strcmp(userinput, "exit") == 0){
@@ -156,11 +157,53 @@ bool Lparam(int argc, char *argv[], FILE * paramFile){
             printf("Aucun hash associé dans le fichier.\n");
         }
     }
+    deleteTree(root);
     return true;
 }
 
 bool GLparam(int argc, char *argv[], FILE * paramFile){
-    printf("GL param");
+    int hashType = 0;
+
+    for(int i = 0; i < argc; i++){
+
+        if(strcmp(argv[i], "-H") == 0){
+            for(int j = 0; j < 4; j++){
+                if(argv[i + 1] != NULL || strcmp(argv[i + 1], "") != 0){
+                    if(strcmp(argv[i + 1], hachage[j]) == 0){
+                        hashType = j;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    char * value = malloc(100*sizeof(char));
+    treeNode * root;
+    if(fscanf(paramFile, "%s\n", value) == 1){
+        char *copy = malloc(100*sizeof(char));
+        strcpy(copy, value);
+        root = createNode(hashString(value, hashType), copy);
+    }
+    while(fscanf(paramFile, "%s\n", value) == 1){
+        char *copy = malloc(100*sizeof(char));
+        strcpy(copy, value);
+        addToTheTree(root, createNode(hashString(value, hashType), copy));
+    }
+    printTree(root, 0);
+    char *userinput = malloc(200*sizeof(char));
+    while(scanf("%s", userinput) > 0){
+        if(strcmp(userinput, "exit") == 0){
+            break;
+        }
+        char* retour = findInTree(root, userinput);
+        if(retour != NULL){
+            printf("Voici le mot de passe associé : %s\n", retour);
+        }
+        else{
+            printf("Aucun hash associé dans le fichier.\n");
+        }
+    }
+    deleteTree(root);
     return true;
 }
 

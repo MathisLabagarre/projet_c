@@ -133,7 +133,7 @@ void printTree(treeNode * root, int gap){
     for(int i = 0; i < gap; i++){
         printf("    ");
     }
-    printf("%s, %d\n", root->value, root->maxDepthBelow);
+    printf("%s, %s, %d\n", root->value, root->clair, root->maxDepthBelow);
     if(root->left != NULL){
         printTree(root->left, gap + 1);
     }

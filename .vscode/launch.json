@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main.exe",
-            "args": ["-L" , "./storage/hash.txt"],
+            "args": ["-GL" , "./storage/file.txt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
