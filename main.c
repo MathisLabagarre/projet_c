@@ -71,49 +71,96 @@ void test(){
 }
 
 bool Gparam(int argc, char *argv[], FILE * paramFile){
-    for(int i = 0; i < argc; i++){
-        printf("%s, %d\n", argv[i], i);
-    }
-    return true;
-}
-
-bool Lparam(int argc, char *argv[], FILE * paramFile){
-    for(int i = 0; i < argc; i++){
-    
-    }
-    return true;
-}
-
-bool GLparam(int argc, char *argv[], FILE * paramFile){
     int hashType = 0;
-    FILE * outputFile;
+    FILE * outputFile = fopen("./storage/hash.txt", "w");
 
     for(int i = 0; i < argc; i++){
 
         if(strcmp(argv[i], "-H") == 0){
-            for(int j = 0; j < hachage; j++){
+            for(int j = 0; j < 4; j++){
                 if(argv[i + 1] != NULL || strcmp(argv[i + 1], "") != 0){
                     if(strcmp(argv[i + 1], hachage[i])){
                         hashType = j;
                         break;
                     }
                 }
-                
             }
         }
 
         if(strcmp(argv[i], "-o") == 0){
             if(argv[i + 1] != NULL || strcmp(argv[i + 1], "") != 0){
                 if((outputFile = fopen(argv[i + 1], "w")) == NULL){
-                    printf("Impossible d'ouvrir %s en écriture. Ouverture du fichier par défaut : ./storage/hash.txt.\n");
+                    printf("Impossible d'ouvrir %s en écriture. Ouverture du fichier par défaut : ./storage/hash.txt.\n", argv[i + 1]);
                     if((outputFile = fopen("./storage/hash.txt", "w")) == NULL){
                         printf("Impossible d'ouvrir un fichier en écriture.\n");
                         return false;
+                    }
+                    else{
+                        printf("Oui c'est bon");
                     }
                 }
             }
         }
     }
+    if(outputFile == NULL){
+        printf("Aucun fichier en écriture ne peut être ouvert !");
+        return false;
+    }
+    char * value = malloc(100*sizeof(char));
+    while(fscanf(paramFile, "%s\n", value) == 1){
+        fprintf(outputFile, "%s:%s\n", value, hashString(value, hashType));
+    }
+    return true;
+}
+
+bool Lparam(int argc, char *argv[], FILE * paramFile){
+    if(argc > 0){
+        printf("Ce mode ne prend pas de paramètres optionnels.\n");
+    }
+    char * value = malloc(200*sizeof(char));
+    treeNode * root;
+    if(fscanf(paramFile, "%s\n", value) == 1){
+        int i = 0;
+        for(i = 199; i > 0; i--){
+            if(value[i] == ':') break;
+        }
+        char* clair = malloc(200*sizeof(char));
+        char* hash = malloc(200*sizeof(char));
+        strncpy(clair, value, i);
+        clair[i] = '\0';
+        strncpy(hash, value + i + 1, 200 - i);
+        root = createNode(hash, clair);
+    }
+    while(fscanf(paramFile, "%s\n", value) == 1){
+        int i = 0;
+        for(i = 199; i > 0; i--){
+            if(value[i] == ':') break;
+        }
+        char* clair = malloc(200*sizeof(char));
+        char* hash = malloc(200*sizeof(char));
+        strncpy(clair, value, i);
+        clair[i] = '\0';
+        strncpy(hash, value + i + 1, 200 - i);
+        addToTheTree(root, createNode(hash, clair));
+    }
+    char *userinput = malloc(200*sizeof(char));
+    while(scanf("%s", userinput) > 0){
+        if(strcmp(userinput, "exit") == 0){
+            break;
+        }
+        char* retour = findInTree(root, userinput);
+        if(retour != NULL){
+            printf("Voici le mot de passe associé : %s\n", retour);
+        }
+        else{
+            printf("Aucun hash associé dans le fichier.\n");
+        }
+    }
+    return true;
+}
+
+bool GLparam(int argc, char *argv[], FILE * paramFile){
+    printf("GL param");
     return true;
 }
 

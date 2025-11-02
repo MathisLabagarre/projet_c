@@ -22,7 +22,7 @@ int greaterDepth(treeNode *node);
 
 void addToTheTree(treeNode *root, treeNode *node);
 
-bool findInTree(treeNode *root, char *toFind);
+char *findInTree(treeNode *root, char *toFind);
 
 treeNode *balanceTree(treeNode *root);
 

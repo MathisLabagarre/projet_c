@@ -56,21 +56,23 @@ void addToTheTree(treeNode *root, treeNode *node){
 
 
 
-bool findInTree(treeNode *root, char *toFind){
+char *findInTree(treeNode *root, char *toFind){
     if(strcmp(root->value, toFind) > 0){
         if(root->left != NULL){
-            if(findInTree(root->left, toFind)) return true;
+            char* value = findInTree(root->left, toFind);
+            if(value != NULL) return value;
         }
     }
     if(strcmp(root->value, toFind) < 0){
         if(root->right != NULL){
-            if(findInTree(root->right, toFind)) return true;
+            char* value = findInTree(root->right, toFind);
+            if(value != NULL) return value;
         }
     }
     if(strcmp(root->value, toFind) == 0){
-        return true;
+        return root->clair;
     }
-    return false;
+    return NULL;
 }
 
 
